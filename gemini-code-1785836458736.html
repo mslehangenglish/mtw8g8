@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E. WRITING PRACTICE ALL SECTIONS - Ms Lê Hằng English</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================
+       1. GIAO DIỆN NỀN LOANG & HỌA TIẾT SVG GAMIFICATION
+       ========================================== */
+    :root {
+      --primary-purple: #8854C0;
+      --accent-yellow: #FDCB6E;
+      --accent-teal: #00C9A7;
+      --correct-green: #00D26A;
+      --wrong-red: #FF4757;
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --text-dark: #2D3436;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Quicksand', 'Nunito', sans-serif;
+      min-height: 100vh;
+      color: var(--text-dark);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 10px;
+      position: relative;
+      overflow-x: hidden;
+      
+      /* Gradient chuyển màu loang mượt continuous */
+      background: linear-gradient(-45deg, #8854C0, #FDCB6E, #00C9A7, #FF7675, #6C5CE7);
+      background-size: 400% 400%;
+      animation: gradientSmooth 15s ease infinite;
+    }
+
+    @keyframes gradientSmooth {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Họa tiết SVG lơ lửng vui nhộn */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.28;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 100 100"><path fill="%23FFF" d="M25,10 L29,20 L40,20 L31,27 L34,38 L25,31 L16,38 L19,27 L10,20 L21,20 Z"/><circle cx="75" cy="25" r="7" fill="%23FFF"/><path fill="%23FFF" d="M70,75 C70,70 80,70 80,75 C85,75 85,85 80,85 C80,90 70,90 70,85 C65,85 65,75 70,75 Z"/><path fill="%23FFF" d="M20,70 Q25,60 30,70 T40,70 T30,80 T20,70 Z"/><path fill="%23FFF" d="M80,15 C82,10 88,10 90,15 C95,17 95,23 90,25 C88,30 82,30 80,25 C75,23 75,17 80,15 Z"/></svg>');
+      background-size: 140px 140px;
+      animation: floatPattern 22s linear infinite;
+    }
+
+    @keyframes floatPattern {
+      from { background-position: 0 0; }
+      to { background-position: 500px 1000px; }
+    }
+
+    /* ==========================================
+       2. BỐ CỤC CHÍNH (CONTAINER)
+       ========================================== */
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 820px;
+      background: var(--card-bg);
+      border-radius: 28px;
+      padding: 25px 30px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.22), 0 0 0 8px rgba(255,255,255,0.45);
+      backdrop-filter: blur(12px);
+    }
+
+    .teacher-header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .teacher-header h5 {
+      font-size: 0.95rem;
+      color: var(--primary-purple);
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      background: #E8D8F8;
+      display: inline-block;
+      padding: 5px 18px;
+      border-radius: 20px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+    }
+
+    .alert-banner {
+      background: #FFF9DB;
+      border: 3px dashed #FCC419;
+      border-radius: 18px;
+      padding: 14px 20px;
+      margin-bottom: 25px;
+      text-align: center;
+      color: #D9480F;
+      font-weight: 700;
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .alert-banner .title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      display: block;
+      margin-bottom: 4px;
+      color: #E65100;
+    }
+
+    .alert-banner .highlight {
+      color: #D32F2F;
+      text-decoration: underline;
+      font-style: italic;
+    }
+
+    .progress-box {
+      margin-bottom: 25px;
+      background: #E9ECEF;
+      border-radius: 14px;
+      height: 20px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid #CED4DA;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00C9A7, #00D26A);
+      transition: width 0.4s ease;
+    }
+
+    /* ==========================================
+       3. THẺ CÂU HỎI & NÚT LỰA CHỌN 3D
+       ========================================== */
+    .section-heading {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--primary-purple);
+      margin: 25px 0 15px 0;
+      padding: 12px 18px;
+      background: #F1F3F5;
+      border-radius: 16px;
+      border-left: 6px solid var(--primary-purple);
+      line-height: 1.5;
+    }
+
+    .question-card {
+      background: #FFFFFF;
+      border-radius: 22px;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+      border: 2px solid #E9ECEF;
+      transition: transform 0.2s ease;
+    }
+
+    .question-title {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: #2D3436;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      background: #F8F9FA;
+      border: 2px solid #E9ECEF;
+      border-bottom: 5px solid #CED4DA;
+      border-radius: 18px;
+      padding: 14px 20px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #495057;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: inherit;
+    }
+
+    .option-btn:hover:not(.disabled) {
+      transform: scale(1.01) translateY(-2px);
+      border-color: #B2BEC3;
+      background: #FFFFFF;
+    }
+
+    .option-btn:active:not(.disabled) {
+      transform: translateY(2px);
+      border-bottom-width: 2px;
+    }
+
+    .option-btn.correct {
+      background-color: #D4EDDA !important;
+      border-color: var(--correct-green) !important;
+      border-bottom-color: #27AE60 !important;
+      color: #155724 !important;
+    }
+
+    .option-btn.wrong {
+      background-color: #F8D7DA !important;
+      border-color: var(--wrong-red) !important;
+      border-bottom-color: #C0392B !important;
+      color: #721C24 !important;
+      animation: shake 0.4s ease;
+    }
+
+    .option-btn.disabled {
+      cursor: default;
+      opacity: 0.9;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    /* ==========================================
+       4. KHUNG GIẢI THÍCH CHI TIẾT 4 BƯỚC & ĐOẠN VĂN MẪU
+       ========================================== */
+    .explanation-box {
+      display: none;
+      margin-top: 18px;
+      background: #F8F9FA;
+      border: 2px dashed var(--primary-purple);
+      border-left: 6px solid var(--primary-purple);
+      border-radius: 14px;
+      padding: 16px 20px;
+      font-size: 0.93rem;
+      line-height: 1.65;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .explanation-box .exp-title {
+      font-weight: 800;
+      color: var(--primary-purple);
+      font-size: 1rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .explanation-box .step {
+      margin-bottom: 8px;
+    }
+
+    .explanation-box ul {
+      margin-left: 22px;
+      margin-bottom: 8px;
+    }
+
+    .explanation-box ul li {
+      margin-bottom: 3px;
+    }
+
+    .explanation-box .highlight-green {
+      color: #27AE60;
+      font-weight: 700;
+    }
+
+    .essay-card {
+      background: #FFFFFF;
+      border-radius: 22px;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+      border: 2px solid #E9ECEF;
+    }
+
+    .essay-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--primary-purple);
+      margin-bottom: 12px;
+    }
+
+    .essay-sample {
+      background: #F8F9FA;
+      border: 2px solid #E9ECEF;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: #2D3436;
+    }
+
+    .essay-sample .vi-trans {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #CED4DA;
+      color: #6C757D;
+      font-style: italic;
+    }
+
+    /* ==========================================
+       5. NÚT NỘP BÀI VÀ POPUP KẾT QUẢ
+       ========================================== */
+    .submit-container {
+      text-align: center;
+      margin-top: 35px;
+      margin-bottom: 15px;
+    }
+
+    .submit-btn {
+      background: linear-gradient(180deg, #00C9A7 0%, #00B894 100%);
+      color: white;
+      border: none;
+      border-bottom: 6px solid #008F68;
+      border-radius: 22px;
+      padding: 16px 50px;
+      font-size: 1.25rem;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(0,201,167,0.35);
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(0,201,167,0.45);
+    }
+
+    .submit-btn:active {
+      transform: translateY(3px);
+      border-bottom-width: 2px;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 26px;
+      padding: 32px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+      animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-score {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: var(--primary-purple);
+      margin: 15px 0;
+    }
+
+    .modal-feedback {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #2D3436;
+      margin-bottom: 25px;
+      background: #F8F9FA;
+      padding: 16px;
+      border-radius: 18px;
+      border: 2px dashed #B2BEC3;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: var(--primary-purple);
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="container">
+    <div class="teacher-header">
+      <h5>Giáo viên tạo: Ms Lê Hằng English</h5>
+    </div>
+
+    <div class="alert-banner">
+      <span class="title">⚠️ LỜI NHẮC CỰC KỲ QUAN TRỌNG ⚠️</span>
+      Chỉ có đọc kỹ giải thích ngay sau mỗi câu, sau đó ghi lại từ vựng/cấu trúc mới vào vở để học thì mới thực sự giỏi lên.<br>
+      Làm cho xong mà không đọc giải thích hay đọc qua loa không ghi chép thì chỉ tốn thời gian vô ích!<br>
+      <span class="highlight">* Kéo tới đâu, làm tới đó! *</span>
+    </div>
+
+    <div class="progress-box">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div id="quiz-container"></div>
+
+    <div class="submit-container">
+      <button class="submit-btn" onclick="submitQuiz()">NỘP BÀI KIỂM TRA 🚀</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="result-modal">
+    <div class="modal-content">
+      <h2 style="color: var(--primary-purple);">🎉 KẾT QUẢ BÀI THI 🎉</h2>
+      <div class="modal-score" id="modal-score-text">0 / 0</div>
+      <div class="modal-feedback" id="modal-feedback-text"></div>
+      <button class="close-btn" onclick="closeModal()">Xem lại đáp án chi tiết</button>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================
+       1. CƠ SỞ DỮ LIỆU ĐỀ BÀI (SECTION I - IV)
+       ========================================== */
+    const quizData = [
+      // ----- SECTION I -----
+      {
+        id: "s1_1",
+        section: "E. WRITING - I. Combine into one sentence, using comparative form of words in brackets but keeping the same meaning.",
+        question: "1. Hoa often goes to her school at 6.30. But I often get there at 6.45. (late)<br>➔ I often go to _______.",
+        options: [
+          { letter: "A", text: "school later than Hoa." },
+          { letter: "B", text: "school earlier than Hoa." },
+          { letter: "C", text: "school more late than Hoa." },
+          { letter: "D", text: "school as late as Hoa." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Hoa thường đi học lúc 6h30. Nhưng tôi thường đến đó lúc 6h45.' (Tôi đến muộn hơn Hoa).",
+          step2: [
+            "A. school later than Hoa. (Tôi thường đi học muộn hơn Hoa -> Đúng ngữ pháp).",
+            "B. ...earlier... (Sớm hơn -> Ngược nghĩa).",
+            "C. ...more late... (Sai vì 'late' là trạng từ/tính từ ngắn, so sánh hơn là 'later').",
+            "D. ...as late as... (Muộn bằng -> Sai nghĩa)."
+          ],
+          step3: "Tại sao chọn A? So sánh hơn của từ ngắn 'late' là 'later' ('later than Hoa'). Mốc 6h45 muộn hơn 6h30.",
+          step4: "Loại B, D sai nghĩa; loại C sai cấu trúc 'more late'."
+        }
+      },
+      {
+        id: "s1_2",
+        section: "E. WRITING - I. Combine into one sentence, using comparative form of words in brackets but keeping the same meaning.",
+        question: "2. I get up at 6.00 every morning. But my mother wakes up at 5.30 every morning. (early)<br>➔ My mother gets up _______.",
+        options: [
+          { letter: "A", text: "earlier than I do every morning." },
+          { letter: "B", text: "more early than I do every morning." },
+          { letter: "C", text: "later than I do every morning." },
+          { letter: "D", text: "as early as I do every morning." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Tôi dậy lúc 6h00 mỗi sáng. Nhưng mẹ tôi thức dậy lúc 5h30 mỗi sáng.' (Mẹ dậy sớm hơn tôi).",
+          step2: [
+            "A. earlier than I do every morning. (Mẹ tôi dậy sớm hơn tôi mỗi sáng -> Đúng ngữ pháp).",
+            "B. ...more early... (Sai vì 'early' có đuôi -y chuyển thành 'earlier').",
+            "C. ...later... (Muộn hơn -> Ngược nghĩa).",
+            "D. ...as early as... (Sớm bằng -> Sai nghĩa)."
+          ],
+          step3: "Tại sao chọn A? So sánh hơn của từ kết thúc đuôi -y 'early' chuyển thành 'earlier' ('earlier than I do/me'). Mốc 5h30 sớm hơn 6h00.",
+          step4: "Loại B sai dạng 'more early'; loại C, D sai nghĩa."
+        }
+      },
+      {
+        id: "s1_3",
+        section: "E. WRITING - I. Combine into one sentence, using comparative form of words in brackets but keeping the same meaning.",
+        question: "3. Luan spent 55 minutes finishing the test. Tien spent 50 mins finishing the test. (slowly)<br>➔ Luan _______.",
+        options: [
+          { letter: "A", text: "finished the test more slowly than Tien." },
+          { letter: "B", text: "finished the test slower than Tien." },
+          { letter: "C", text: "finished the test faster than Tien." },
+          { letter: "D", text: "finished the test as slowly as Tien." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Luận mất 55 phút để hoàn thành bài test. Tiến mất 50 phút.' (Luận làm chậm hơn Tiến).",
+          step2: [
+            "A. finished the test more slowly than Tien. (Luận hoàn thành bài kiểm tra chậm hơn Tiến -> Đúng trạng từ so sánh hơn).",
+            "B. ...slower... (Không dùng đúng trạng từ 'slowly' đề bài yêu cầu).",
+            "C. ...faster... (Nhanh hơn -> Sai nghĩa).",
+            "D. ...as slowly as... (Chậm bằng -> Sai nghĩa)."
+          ],
+          step3: "Tại sao chọn A? Trạng từ 'slowly' bổ nghĩa cho động từ 'finished'. So sánh hơn trạng từ 2 âm tiết đuôi -ly: 'more slowly than Tien'. 55 phút chậm hơn 50 phút.",
+          step4: "Loại B sai từ yêu cầu; loại C, D sai nghĩa."
+        }
+      },
+      {
+        id: "s1_4",
+        section: "E. WRITING - I. Combine into one sentence, using comparative form of words in brackets but keeping the same meaning.",
+        question: "4. The cat runs about 40 kilometers per hour. The dog runs about 30 kilometers per hour. (fast)<br>➔ The cat _______.",
+        options: [
+          { letter: "A", text: "runs faster than the dog." },
+          { letter: "B", text: "runs more fast than the dog." },
+          { letter: "C", text: "runs slower than the dog." },
+          { letter: "D", text: "runs as fast as the dog." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Con mèo chạy khoảng 40 km/h. Con chó chạy khoảng 30 km/h.' (Mèo chạy nhanh hơn chó).",
+          step2: [
+            "A. runs faster than the dog. (Con mèo chạy nhanh hơn con chó -> Đúng ngữ pháp).",
+            "B. ...more fast... (Sai vì 'fast' là trạng từ ngắn, so sánh hơn là 'faster').",
+            "C. ...slower... (Chậm hơn -> Sai nghĩa).",
+            "D. ...as fast as... (Nhanh bằng -> Sai nghĩa)."
+          ],
+          step3: "Tại sao chọn A? Trạng từ ngắn 'fast' có dạng so sánh hơn duy nhất là 'faster' ('faster than the dog'). 40 km/h nhanh hơn 30 km/h.",
+          step4: "Loại B sai dạng 'more fast'; loại C, D sai nghĩa."
+        }
+      },
+      {
+        id: "s1_5",
+        section: "E. WRITING - I. Combine into one sentence, using comparative form of words in brackets but keeping the same meaning.",
+        question: "5. I go jogging three times a week. My brother goes jogging almost every day. (frequently)<br>➔ My brother _______.",
+        options: [
+          { letter: "A", text: "goes jogging more frequently than I do." },
+          { letter: "B", text: "goes jogging more frequent than I do." },
+          { letter: "C", text: "goes jogging less frequently than I do." },
+          { letter: "D", text: "goes jogging as frequently as I do." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Tôi đi chạy bộ 3 lần một tuần. Anh tôi đi chạy bộ hầu như mỗi ngày.' (Anh tôi đi chạy thường xuyên hơn tôi).",
+          step2: [
+            "A. goes jogging more frequently than I do. (Anh tôi đi chạy bộ thường xuyên hơn tôi -> Đúng ngữ pháp).",
+            "B. ...more frequent... (Dùng tính từ 'frequent' bổ nghĩa cho động từ 'goes jogging' là sai).",
+            "C. ...less frequently... (Ít thường xuyên hơn -> Sai nghĩa).",
+            "D. ...as frequently as... (Thường xuyên bằng -> Sai nghĩa)."
+          ],
+          step3: "Tại sao chọn A? Trạng từ 'frequently' bổ nghĩa cho 'goes jogging'. So sánh hơn trạng từ dài: 'more frequently than I do/me'.",
+          step4: "Loại B dùng tính từ; loại C, D sai nghĩa."
+        }
+      },
+
+      // ----- SECTION II -----
+      {
+        id: "s2_1",
+        section: "E. WRITING - II. Complete each sentence, so that its meaning is the same as the sentence above.",
+        question: "1. Cats can not swim as well as dogs.<br>➔ Dogs can _______.",
+        options: [
+          { letter: "A", text: "swim better than cats." },
+          { letter: "B", text: "swim worse than cats." },
+          { letter: "C", text: "swim as well as cats." },
+          { letter: "D", text: "swim more well than cats." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Mèo không thể bơi giỏi bằng chó.' (Chó bơi giỏi hơn mèo).",
+          step2: [
+            "A. swim better than cats. (Chó có thể bơi giỏi hơn mèo -> Đúng ngữ pháp).",
+            "B. ...worse... (Kém hơn -> Sai nghĩa).",
+            "C. ...as well as... (Giỏi bằng -> Sai nghĩa).",
+            "D. ...more well... (Sai vì dạng so sánh hơn của 'well' là 'better')."
+          ],
+          step3: "Tại sao chọn A? Mèo không bơi giỏi bằng chó = Chó bơi giỏi hơn mèo. So sánh hơn của trạng từ 'well' là 'better' ('swim better than cats').",
+          step4: "Loại B, C sai nghĩa; loại D sai dạng 'more well'."
+        }
+      },
+      {
+        id: "s2_2",
+        section: "E. WRITING - II. Complete each sentence, so that its meaning is the same as the sentence above.",
+        question: "2. My brother really loves to hang out with his close friends.<br>➔ My brother really enjoys _______.",
+        options: [
+          { letter: "A", text: "hanging out with his close friends." },
+          { letter: "B", text: "to hang out with his close friends." },
+          { letter: "C", text: "hang out with his close friends." },
+          { letter: "D", text: "in hanging out with his close friends." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Anh trai tôi thực sự rất thích đi chơi với bạn thân.'",
+          step2: [
+            "A. hanging out with his close friends. (Đúng ngữ pháp enjoy + V-ing).",
+            "B. ...to hang... (Sai vì sau 'enjoy' không dùng to-V).",
+            "C. ...hang... (Sai vì dùng V-bare).",
+            "D. ...in hanging... (Thừa giới từ 'in')."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc sự yêu thích tương đương: 'love + to-V/V-ing' = 'enjoy + V-ing' (thích làm gì).",
+          step4: "Loại B, C, D do sai dạng động từ theo sau 'enjoy'."
+        }
+      },
+      {
+        id: "s2_3",
+        section: "E. WRITING - II. Complete each sentence, so that its meaning is the same as the sentence above.",
+        question: "3. Playing beach games is not so interesting as swimming in the sea.<br>➔ Swimming _______.",
+        options: [
+          { letter: "A", text: "in the sea is more interesting than playing beach games." },
+          { letter: "B", text: "in the sea is less interesting than playing beach games." },
+          { letter: "C", text: "in the sea is as interesting as playing beach games." },
+          { letter: "D", text: "in the sea is not as interesting as playing beach games." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Chơi trò chơi trên bãi biển không thú vị bằng bơi ở biển.' (Bơi dưới biển thú vị hơn).",
+          step2: [
+            "A. in the sea is more interesting than playing beach games. (Bơi dưới biển thú vị hơn chơi trò bãi biển -> Đúng ngữ pháp).",
+            "B. ...less interesting... (Ít thú vị hơn -> Ngược nghĩa).",
+            "C. ...as interesting as... (Thú vị bằng -> Ngược nghĩa).",
+            "D. ...not as interesting as... (Không thú vị bằng -> Ngược nghĩa)."
+          ],
+          step3: "Tại sao chọn A? Chuyển từ So sánh không bằng [A không thú vị bằng B] sang So sánh hơn [B thú vị hơn A]: 'Swimming in the sea is more interesting than playing beach games'.",
+          step4: "Loại B, C, D sai nghĩa trái ngược."
+        }
+      },
+      {
+        id: "s2_4",
+        section: "E. WRITING - II. Complete each sentence, so that its meaning is the same as the sentence above.",
+        question: "4. He uses all his leisure time to look after his garden.<br>➔ He spends _______.",
+        options: [
+          { letter: "A", text: "all his leisure time looking after his garden." },
+          { letter: "B", text: "all his leisure time to look after his garden." },
+          { letter: "C", text: "all his leisure time look after his garden." },
+          { letter: "D", text: "all his leisure time in look after his garden." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Anh ấy dùng toàn bộ thời gian rỗi để chăm sóc khu vườn.'",
+          step2: [
+            "A. all his leisure time looking after his garden. (Đúng ngữ pháp spend time V-ing).",
+            "B. ...to look... (Sai to-V).",
+            "C. ...look... (Sai V-bare).",
+            "D. ...in look... (Sai cấu trúc)."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc dành thời gian làm gì: 'S + use time + to-V' = 'S + spend + time + V-ing'. Cụm 'look after' chuyển thành 'looking after'.",
+          step4: "Loại B, C, D do sai dạng động từ theo sau 'spend time'."
+        }
+      },
+      {
+        id: "s2_5",
+        section: "E. WRITING - II. Complete each sentence, so that its meaning is the same as the sentence above.",
+        question: "5. It takes a buffalo about half a day to plough the field, but a machine can do it for an hour.<br>➔ A buffalo ploughs the field _______.",
+        options: [
+          { letter: "A", text: "more slowly than a machine does." },
+          { letter: "B", text: "faster than a machine does." },
+          { letter: "C", text: "more quickly than a machine does." },
+          { letter: "D", text: "as fast as a machine does." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Con trâu mất khoảng nửa ngày để cày xong cánh đồng, nhưng máy móc có thể làm xong trong 1 tiếng.' (Trâu cày chậm hơn máy).",
+          step2: [
+            "A. more slowly than a machine does. (Con trâu cày ruộng chậm hơn máy móc -> Đúng ngữ pháp).",
+            "B. ...faster... (Nhanh hơn -> Sai nghĩa).",
+            "C. ...more quickly... (Nhanh hơn -> Sai nghĩa).",
+            "D. ...as fast as... (Nhanh bằng -> Sai nghĩa)."
+          ],
+          step3: "Tại sao chọn A? Trâu mất nửa ngày (12 tiếng) cày chậm hơn máy làm trong 1 tiếng. Bổ nghĩa cho động từ 'ploughs' dùng trạng từ so sánh hơn 'more slowly than a machine (does)'.",
+          step4: "Loại B, C, D sai nghĩa thực tế."
+        }
+      },
+
+      // ----- SECTION III -----
+      {
+        id: "s3_1",
+        section: "E. WRITING - III. Put the words into their correct order.",
+        question: "1. spent / never / an / I / hour / have / than / more / each day / online /.",
+        options: [
+          { letter: "A", text: "I have never spent more than an hour each day online." },
+          { letter: "B", text: "I have spent never more than an hour each day online." },
+          { letter: "C", text: "I spent have never more than an hour online each day." },
+          { letter: "D", text: "I never have spent an hour more than each day online." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Tôi chưa bao giờ dành nhiều hơn một tiếng mỗi ngày ở trên mạng.'",
+          step2: [
+            "A. I have never spent more than an hour each day online. (Đúng ngữ pháp thì Hiện tại hoàn thành).",
+            "B. ...spent never... (Trạng từ 'never' phải đứng giữa 'have' và 'spent').",
+            "C. ...spent have... (Sai vị trí trợ động từ 'have').",
+            "D. ...never have spent an hour more... (Sai trật tự cụm lượng từ)."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc Hiện tại hoàn thành với trạng từ phủ định: 'S + have/has + NEVER + V3/ed'. Cụm so sánh lượng thời gian: 'more than an hour each day online'.",
+          step4: "Loại B, C, D do xáo trộn sai vị trí từ 'never' và trợ động từ 'have'."
+        }
+      },
+      {
+        id: "s3_2",
+        section: "E. WRITING - III. Put the words into their correct order.",
+        question: "2. computer/ games / My cousin / is / about / crazy / playing /.",
+        options: [
+          { letter: "A", text: "My cousin is crazy about playing computer games." },
+          { letter: "B", text: "My cousin is playing crazy about computer games." },
+          { letter: "C", text: "My cousin about crazy is playing computer games." },
+          { letter: "D", text: "Playing computer games my cousin is crazy about." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Anh/chị họ của tôi rất cuồng/thích chơi trò chơi máy tính.'",
+          step2: [
+            "A. My cousin is crazy about playing computer games. (Đúng ngữ pháp cụm be crazy about + V-ing).",
+            "B. ...is playing crazy... (Sai vị trí tính từ 'crazy').",
+            "C. ...about crazy is... (Sai trật tự từ).",
+            "D. (Mặc dù hiểu nhưng cấu trúc câu A chuẩn S + V + Adj + O tự nhiên hơn)."
+          ],
+          step3: "Tại sao chọn A? Cụm tính từ thể hiện sự đam mê: 'S + be + crazy about + V-ing' -> 'My cousin is crazy about playing computer games'.",
+          step4: "Loại B, C xáo trộn sai vị trí 'crazy' và 'is'."
+        }
+      },
+      {
+        id: "s3_3",
+        section: "E. WRITING - III. Put the words into their correct order.",
+        question: "3. I'm / cooking / not into / because / meals / I / often / myself / burn /.",
+        options: [
+          { letter: "A", text: "I'm not into cooking meals because I often burn myself." },
+          { letter: "B", text: "I'm cooking not into meals because I often burn myself." },
+          { letter: "C", text: "I'm not into meals cooking because I often burn myself." },
+          { letter: "D", text: "Because I often burn myself I'm cooking not into meals." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Tôi không thích nấu các bữa ăn vì tôi thường xuyên làm mình bị bỏng.'",
+          step2: [
+            "A. I'm not into cooking meals because I often burn myself. (Đúng ngữ pháp cụm be into + V-ing).",
+            "B. ...cooking not into... (Đặt 'not into' sai vị trí).",
+            "C. ...not into meals cooking... (Sai trật tự V-ing + N).",
+            "D. (Mới đảo vế nhưng sai cụm 'cooking not into')."
+          ],
+          step3: "Tại sao chọn A? Cụm thành ngữ sở thích: 'be into + V-ing/N' (thích cái gì). Phủ định: 'I'm not into cooking meals'. Mệnh đề lý do: 'because I often burn myself'.",
+          step4: "Loại B, C, D sai trật tự cụm 'not into cooking'."
+        }
+      },
+      {
+        id: "s3_4",
+        section: "E. WRITING - III. Put the words into their correct order.",
+        question: "4. We / onto / load / help / bufallo drawn carts / the farmers / the rice /.",
+        options: [
+          { letter: "A", text: "We help the farmers load the rice onto buffalo-drawn carts." },
+          { letter: "B", text: "We help load the farmers the rice onto buffalo-drawn carts." },
+          { letter: "C", text: "We help the rice load onto buffalo-drawn carts the farmers." },
+          { letter: "D", text: "We load the farmers help the rice onto buffalo-drawn carts." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Chúng tôi giúp những người nông dân chất lúa lên xe trâu kéo.'",
+          step2: [
+            "A. We help the farmers load the rice onto buffalo-drawn carts. (Đúng ngữ pháp).",
+            "B. ...help load the farmers... (Chất người nông dân lên xe trâu -> Sai nghĩa hài hước).",
+            "C. ...help the rice load... (Lúa tự chất -> Sai nghĩa).",
+            "D. (Trật tự động từ bị xáo trộn)."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc: 'S + help + O (someone) + V-bare (something) + onto + N'. 'Help the farmers load the rice onto buffalo-drawn carts'.",
+          step4: "Loại B, C, D do xáo trộn sai vị trí tân ngữ 'the farmers' và 'the rice'."
+        }
+      },
+      {
+        id: "s3_5",
+        section: "E. WRITING - III. Put the words into their correct order.",
+        question: "5. have / be / to / We / careful / friends / to make / online / with / strangers /.",
+        options: [
+          { letter: "A", text: "We have to be careful when making friends online with strangers." },
+          { letter: "B", text: "We have to be careful to make friends online with strangers." },
+          { letter: "C", text: "We be carefully to have to make friends online with strangers." },
+          { letter: "D", text: "We have careful to be to make friends online with strangers." }
+        ],
+        correct: "B",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Chúng ta phải cẩn thận khi/để kết bạn trực tuyến với người lạ.'",
+          step2: [
+            "A. (Thêm từ 'when' không có trong bộ từ gợi ý của câu gốc).",
+            "B. We have to be careful to make friends online with strangers. (Khớp 100% tất cả các từ gốc cho sẵn).",
+            "C. ...be carefully... (Dùng sai trạng từ sau 'be').",
+            "D. ...careful to be to make... (Xáo trộn sai vị trí 'careful' và 'to be')."
+          ],
+          step3: "Tại sao chọn B? Sử dụng đúng 100% các từ đề bài cung cấp: 'S + have to + be + adj + to-V-bare' -> 'We have to be careful to make friends online with strangers'. Cụm 'make friends with strangers' (kết bạn với người lạ).",
+          step4: "Loại A tự ý thêm từ 'when'; loại C, D sai trật tự từ vựng."
+        }
+      },
+      {
+        id: "s3_6",
+        section: "E. WRITING - III. Put the words into their correct order.",
+        question: "6. have / been / the internet / keen on / The boys / surfing /.",
+        options: [
+          { letter: "A", text: "The boys have been keen on surfing the internet." },
+          { letter: "B", text: "The boys been have keen on surfing the internet." },
+          { letter: "C", text: "The boys have keen on been surfing the internet." },
+          { letter: "D", text: "Surfing the internet the boys have been keen on." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Những cậu bé đã và đang rất thích lướt mạng internet.'",
+          step2: [
+            "A. The boys have been keen on surfing the internet. (Đúng ngữ pháp).",
+            "B. ...been have... (Sai vị trí trợ động từ 'have').",
+            "C. ...keen on been... (Đặt 'been' sai vị trí).",
+            "D. (Đảo ngữ lủng củng)."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc Hiện tại hoàn thành với cụm tính từ: 'S + have/has + been + keen on + V-ing'. 'The boys have been keen on surfing the internet'.",
+          step4: "Loại B, C xáo trộn sai vị trí 'have' và 'been'."
+        }
+      },
+
+      // ----- SECTION IV -----
+      {
+        id: "s4_1",
+        section: "E. WRITING - IV. Write questions for the underlined parts of the following sentences (hoặc viết câu hoàn chỉnh từ gợi ý).",
+        question: "1. The plane / arrive / 7.00 am / yesterday.<br>➔ _______.",
+        options: [
+          { letter: "A", text: "The plane arrived at 7.00 am yesterday." },
+          { letter: "B", text: "The plane arrive at 7.00 am yesterday." },
+          { letter: "C", text: "The plane arrived in 7.00 am yesterday." },
+          { letter: "D", text: "The plane was arrive at 7.00 am yesterday." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Máy bay đã hạ cánh lúc 7 giờ sáng ngày hôm qua.'",
+          step2: [
+            "A. The plane arrived at 7.00 am yesterday. (Đúng ngữ pháp Quá khứ đơn).",
+            "B. ...arrive... (Chưa chia động từ Quá khứ đơn với 'yesterday').",
+            "C. ...in 7.00 am... (Sai giới từ chỉ giờ, phải dùng 'at').",
+            "D. ...was arrive... (Sai ngữ pháp thừa to-be 'was')."
+          ],
+          step3: "Tại sao chọn A? Dấu hiệu 'yesterday' (hôm qua) -> Động từ chia Quá khứ đơn 'arrived'. Giới từ chỉ mốc giờ cụ thể là 'at 7.00 am'.",
+          step4: "Loại B chưa chia động từ; loại C sai giới từ 'in'; loại D thừa 'was'."
+        }
+      },
+      {
+        id: "s4_2",
+        section: "E. WRITING - IV. Write questions for the underlined parts of the following sentences (hoặc viết câu hoàn chỉnh từ gợi ý).",
+        question: "2. Why / you / have to / stay / home / last Monday?<br>➔ _______?",
+        options: [
+          { letter: "A", text: "Why did you have to stay at home last Monday?" },
+          { letter: "B", text: "Why do you have to stay at home last Monday?" },
+          { letter: "C", text: "Why had you to stay at home last Monday?" },
+          { letter: "D", text: "Why were you have to stay at home last Monday?" }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Tại sao bạn lại phải ở nhà vào thứ Hai tuần trước?'",
+          step2: [
+            "A. Why did you have to stay at home last Monday? (Đúng ngữ pháp câu hỏi Quá khứ đơn).",
+            "B. ...do you... (Sai trợ động từ Hiện tại đơn cho thời gian quá khứ 'last Monday').",
+            "C. ...had you to... (Sai cấu trúc đảo câu hỏi với have to).",
+            "D. ...were you have... (Sai trợ động từ 'were')."
+          ],
+          step3: "Tại sao chọn A? Dấu hiệu 'last Monday' -> Câu hỏi Yes/No hoặc Wh-question ở Quá khứ đơn mượn trợ động từ 'did': 'Why + did + S + have to + V-bare...?'",
+          step4: "Loại B sai trợ động từ 'do'; loại C, D sai cấu trúc đảo trợ động từ."
+        }
+      },
+      {
+        id: "s4_3",
+        section: "E. WRITING - IV. Write questions for the underlined parts of the following sentences (hoặc viết câu hoàn chỉnh từ gợi ý).",
+        question: "3. Where / she / enjoy / her / last / summer / holiday / ?<br>➔ _______?",
+        options: [
+          { letter: "A", text: "Where did she enjoy her last summer holiday?" },
+          { letter: "B", text: "Where does she enjoy her last summer holiday?" },
+          { letter: "C", text: "Where was she enjoy her last summer holiday?" },
+          { letter: "D", text: "Where she enjoyed her last summer holiday?" }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Cô ấy đã tận hưởng kỳ nghỉ hè năm ngoái ở đâu?'",
+          step2: [
+            "A. Where did she enjoy her last summer holiday? (Đúng ngữ pháp câu hỏi Quá khứ đơn).",
+            "B. ...does she... (Sai trợ động từ 'does' cho quá khứ 'last summer holiday').",
+            "C. ...was she enjoy... (Sai trợ động từ 'was').",
+            "D. ...where she enjoyed... (Thiếu trợ động từ đảo lên trước chủ ngữ)."
+          ],
+          step3: "Tại sao chọn A? Dấu hiệu 'last summer holiday' -> Câu hỏi Wh-question thì Quá khứ đơn: 'Where + did + S + V-bare...?'",
+          step4: "Loại B dùng 'does'; loại C dùng 'was'; loại D thiếu trợ động từ 'did'."
+        }
+      },
+      {
+        id: "s4_4",
+        section: "E. WRITING - IV. Write questions for the underlined parts of the following sentences (hoặc viết câu hoàn chỉnh từ gợi ý).",
+        question: "4. Peter / be / fond / hang out / his best friends /.<br>➔ _______.",
+        options: [
+          { letter: "A", text: "Peter is fond of hanging out with his best friends." },
+          { letter: "B", text: "Peter is fond in hanging out with his best friends." },
+          { letter: "C", text: "Peter is fond of hang out with his best friends." },
+          { letter: "D", text: "Peter fond of hanging out with his best friends." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Peter rất thích đi chơi cùng với những người bạn thân nhất của mình.'",
+          step2: [
+            "A. Peter is fond of hanging out with his best friends. (Đúng ngữ pháp).",
+            "B. ...fond in... (Sai giới từ 'in').",
+            "C. ...fond of hang... (Sai dạng động từ, sau giới từ 'of' phải dùng V-ing 'hanging').",
+            "D. Peter fond... (Thiếu động từ to-be 'is')."
+          ],
+          step3: "Tại sao chọn A? Cụm tính từ thể hiện sự yêu thích: 'be fond of + V-ing' -> 'Peter is fond of hanging out with his best friends'. Bổ sung giới từ 'with' (với bạn bè).",
+          step4: "Loại B sai giới từ; loại C sai V-bare; loại D thiếu to-be 'is'."
+        }
+      },
+      {
+        id: "s4_5",
+        section: "E. WRITING - IV. Write questions for the underlined parts of the following sentences (hoặc viết câu hoàn chỉnh từ gợi ý).",
+        question: "5. The Japanese people / live / long / than / The Chinese.<br>➔ _______.",
+        options: [
+          { letter: "A", text: "The Japanese people live longer than the Chinese." },
+          { letter: "B", text: "The Japanese people live more long than the Chinese." },
+          { letter: "C", text: "The Japanese people lives longer than the Chinese." },
+          { letter: "D", text: "The Japanese people live longer than the Chinese people live." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Người Nhật Bản sống thọ/lâu hơn người Trung Quốc.'",
+          step2: [
+            "A. The Japanese people live longer than the Chinese. (Đúng trạng từ so sánh hơn 'longer').",
+            "B. ...more long... (Sai vì 'long' là từ ngắn, so sánh hơn đổi thành 'longer').",
+            "C. ...lives... (Sai vì chủ ngữ 'The Japanese people' chỉ tập hợp người là số nhiều đi với V-bare 'live').",
+            "D. (Câu A ngắn gọn chuẩn ngữ pháp nhất)."
+          ],
+          step3: "Tại sao chọn A? So sánh hơn của từ ngắn 'long' chuyển thành 'longer' ('live longer than the Chinese'). Chủ ngữ số nhiều đi với động từ nguyên thể 'live'.",
+          step4: "Loại B sai dạng 'more long'; loại C chia sai động từ số ít 'lives'."
+        }
+      }
+    ];
+
+    /* ==========================================
+       2. BỔ SUNG SECTION V: ĐOẠN VĂN MẪU TỰ LUẬN
+       ========================================== */
+    const essaysData = [
+      {
+        title: "1. What are the advantages and disadvantages of living in the countryside?",
+        en: "Living in the countryside has both pros and cons. On the one hand, the rural area offers fresh air, peaceful atmosphere, and beautiful natural scenery. People can enjoy a healthy lifestyle with organic food and less traffic congestion. On the other hand, there are fewer job opportunities and modern facilities like big hospitals or shopping malls. However, many people still prefer the quiet life in the countryside.",
+        vi: "Sống ở nông thôn có cả ưu điểm lẫn nhược điểm. Một mặt, vùng nông thôn mang lại không khí trong lành, bầu không khí yên bình và cảnh quan thiên nhiên tươi đẹp. Mọi người có thể tận hưởng lối sống lành mạnh với thực phẩm hữu cơ và ít bị tắc đường. Mặt khác, ở đây có ít cơ hội việc làm và cơ sở vật chất hiện đại hơn như các bệnh viện lớn hay trung tâm thương mại. Tuy nhiên, nhiều người vẫn thích cuộc sống yên tĩnh ở nông thôn."
+      },
+      {
+        title: "2. What activities do you usually do in your leisure time?",
+        en: "In my leisure time, I usually engage in various relaxing activities. I am fond of reading fantasy books because they broaden my imagination and knowledge. Additionally, I enjoy playing badminton with my close friends every afternoon to keep fit and reduce stress after studying. Sometimes, I also help my parents look after our garden. These hobbies make my free time very meaningful.",
+        vi: "Vào thời gian rảnh rỗi, tôi thường tham gia vào nhiều hoạt động thư giãn khác nhau. Tôi rất thích đọc sách viễn tưởng vì chúng mở rộng trí tưởng tượng và kiến thức của tôi. Ngoài ra, tôi thích chơi cầu lông với bạn thân vào mỗi buổi chiều để giữ vóc dáng và giảm căng thẳng sau giờ học. Đôi khi, tôi cũng giúp bố mẹ chăm sóc khu vườn. Những sở thích này làm cho thời gian rảnh của tôi rất có ý nghĩa."
+      },
+      {
+        title: "3. Can you show the causes of your stress and give solutions?",
+        en: "As a student, my main stress comes from heavy schoolwork and exam pressure. Sometimes, peer pressure also makes me feel overwhelmed because I want to get good grades like my classmates. To solve this problem, I try to balance my study time and relaxation by creating a clear daily schedule. Moreover, doing exercise regularly and talking with my parents or teachers also help me release pressure effectively.",
+        vi: "Là một học sinh, sự căng thẳng chính của tôi đến từ khối lượng bài vở nặng nề và áp lực thi cử. Đôi khi, áp lực từ bạn bè cũng khiến tôi cảm thấy quá tải vì tôi muốn đạt điểm cao như các bạn cùng lớp. Để giải quyết vấn đề này, tôi cố gắng cân bằng thời gian học tập và thư giãn bằng cách tạo một thời khóa biểu hàng ngày rõ ràng. Hơn nữa, việc tập thể dục thường xuyên và trò chuyện với bố mẹ hoặc thầy cô cũng giúp tôi giải tỏa áp lực rất hiệu quả."
+      }
+    ];
+
+    /* ==========================================
+       3. TẠO ÂM THANH BẰNG WEB AUDIO API
+       ========================================== */
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playSound(type) {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      if (type === 'correct') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+      } else {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(110, audioCtx.currentTime + 0.25);
+        gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.25);
+      }
+    }
+
+    /* ==========================================
+       4. HIỆU ỨNG PHÁO GIẤY (CONFETTI)
+       ========================================== */
+    function triggerConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const pieces = [];
+      const colors = ['#8854C0', '#FDCB6E', '#00C9A7', '#FF7675', '#00D26A', '#6C5CE7'];
+
+      for (let i = 0; i < 90; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          size: Math.random() * 9 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: Math.random() * 4 + 2,
+          rotation: Math.random() * 360
+        });
+      }
+
+      let animationFrame;
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+          p.y += p.speed;
+          p.rotation += 2;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          ctx.restore();
+        });
+
+        if (pieces.some(p => p.y < canvas.height)) {
+          animationFrame = requestAnimationFrame(render);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          cancelAnimationFrame(animationFrame);
+        }
+      }
+      render();
+    }
+
+    /* ==========================================
+       5. LOGIC HIỂN THỊ CÂU HỎI (GIỮ NGUYÊN THỨ TỰ)
+       ========================================== */
+    let userAnswers = {};
+
+    function shuffle(array) {
+      let currentIndex = array.length, randomIndex;
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+      }
+      return array;
+    }
+
+    function renderQuiz() {
+      const quizContainer = document.getElementById('quiz-container');
+      quizContainer.innerHTML = '';
+
+      const sections = {};
+      quizData.forEach(item => {
+        if (!sections[item.section]) {
+          sections[item.section] = [];
+        }
+        sections[item.section].push(item);
+      });
+
+      for (const secTitle in sections) {
+        const secHeader = document.createElement('div');
+        secHeader.className = 'section-heading';
+        secHeader.innerHTML = `📌 ${secTitle}`;
+        quizContainer.appendChild(secHeader);
+
+        // GIỮ NGUYÊN THỨ TỰ CỦA CÁC CÂU HỎI SECTION I - IV
+        sections[secTitle].forEach(q => {
+          const card = document.createElement('div');
+          card.className = 'question-card';
+          card.id = `q-card-${q.id}`;
+
+          const shuffledOptions = shuffle([...q.options]);
+
+          let optionsHTML = '<div class="options-grid">';
+          shuffledOptions.forEach(opt => {
+            optionsHTML += `
+              <button class="option-btn" 
+                      id="btn-${q.id}-${opt.letter}" 
+                      onclick="selectAnswer('${q.id}', '${opt.letter}', '${q.correct}')">
+                <strong>${opt.letter}.</strong> ${opt.text}
+              </button>
+            `;
+          });
+          optionsHTML += '</div>';
+
+          let expStepsHTML = '';
+          if (q.explanation.step2 && Array.isArray(q.explanation.step2)) {
+            expStepsHTML = '<ul>' + q.explanation.step2.map(item => `<li>${item}</li>`).join('') + '</ul>';
+          }
+
+          const explanationHTML = `
+            <div class="explanation-box" id="exp-${q.id}">
+              <div class="exp-title">💡 PHẦN GIẢI THÍCH CHI TIẾT TỪ MS LÊ HẰNG:</div>
+              <div class="step"><strong>1. Phân tích & Dịch nghĩa câu hỏi:</strong> ${q.explanation.step1}</div>
+              ${expStepsHTML}
+              <div class="step"><strong class="highlight-green">2. Tại sao chọn đáp án đúng?</strong> ${q.explanation.step3}</div>
+              <div class="step"><strong>3. Phân tích lỗi sai các đáp án còn lại:</strong> ${q.explanation.step4}</div>
+            </div>
+          `;
+
+          card.innerHTML = `
+            <div class="question-title">${q.question}</div>
+            ${optionsHTML}
+            ${explanationHTML}
+          `;
+
+          quizContainer.appendChild(card);
+        });
+      }
+
+      // HIỂN THỊ THÊM SECTION V: ĐOẠN VĂN MẪU
+      const sec5Header = document.createElement('div');
+      sec5Header.className = 'section-heading';
+      sec5Header.innerHTML = `📌 V. Write a paragraph (60-80 words) to talk about each topic (Đoạn văn mẫu tham khảo)`;
+      quizContainer.appendChild(sec5Header);
+
+      essaysData.forEach(essay => {
+        const essayCard = document.createElement('div');
+        essayCard.className = 'essay-card';
+        essayCard.innerHTML = `
+          <div class="essay-title">✍️ ${essay.title}</div>
+          <div class="essay-sample">
+            <strong>Bài mẫu Tiếng Anh (Sample):</strong><br>
+            ${essay.en}
+            <div class="vi-trans">
+              <strong>Dịch nghĩa Tiếng Việt:</strong><br>
+              ${essay.vi}
+            </div>
+          </div>
+        `;
+        quizContainer.appendChild(essayCard);
+      });
+    }
+
+    function selectAnswer(qId, selectedLetter, correctLetter) {
+      if (userAnswers[qId]) return;
+
+      userAnswers[qId] = selectedLetter;
+
+      const isCorrect = (selectedLetter === correctLetter);
+      const selectedBtn = document.getElementById(`btn-${qId}-${selectedLetter}`);
+      const correctBtn = document.getElementById(`btn-${qId}-${correctLetter}`);
+      const expBox = document.getElementById(`exp-${qId}`);
+
+      const allBtns = document.querySelectorAll(`#q-card-${qId} .option-btn`);
+      allBtns.forEach(btn => btn.classList.add('disabled'));
+
+      if (isCorrect) {
+        selectedBtn.classList.add('correct');
+        playSound('correct');
+        triggerConfetti();
+      } else {
+        selectedBtn.classList.add('wrong');
+        correctBtn.classList.add('correct');
+        playSound('wrong');
+      }
+
+      if (expBox) {
+        expBox.style.display = 'block';
+      }
+
+      updateProgressBar();
+    }
+
+    function updateProgressBar() {
+      const answeredCount = Object.keys(userAnswers).length;
+      const totalCount = quizData.length;
+      const percentage = (answeredCount / totalCount) * 100;
+      document.getElementById('progress-bar').style.width = percentage + '%';
+    }
+
+    /* ==========================================
+       6. LOGIC CHẤM ĐIỂM & TỔNG KẾT
+       ========================================== */
+    function submitQuiz() {
+      let score = 0;
+      const total = quizData.length;
+
+      quizData.forEach(q => {
+        if (userAnswers[q.id] === q.correct) {
+          score++;
+        }
+      });
+
+      const percentage = (score / total) * 100;
+      let feedback = "";
+
+      if (percentage < 50) {
+        feedback = "Điểm lần này chưa cao lắm, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau!";
+      } else if (percentage <= 80) {
+        feedback = "Con đã có tiến bộ khá ổn rồi, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau!";
+      } else {
+        feedback = "Làm tốt lắm, con cố gắng ring điểm 10 ở lần sau nha!";
+        triggerConfetti();
+      }
+
+      document.getElementById('modal-score-text').innerText = `${score} / ${total}`;
+      document.getElementById('modal-feedback-text').innerText = feedback;
+      document.getElementById('result-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('result-modal').style.display = 'none';
+    }
+
+    window.onload = function() {
+      renderQuiz();
+    };
+  </script>
+</body>
+</html>
